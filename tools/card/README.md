@@ -18,44 +18,54 @@ Xへ手動投稿
 
 ## 使い方
 
-### 1. フォントを用意する（初回のみ）
-
-`template.html` はサイトと同じ Noto Sans JP を使います。npm から取得します。
+`make_card.py` に値を渡すだけです。フォントの取得もバー幅の計算も自動で行われます。
 
 ```bash
-npm install @fontsource/noto-sans-jp
+python3 tools/card/make_card.py \
+  --pillar shortcut \
+  --label "PowerPoint 時短Tips" \
+  --no "#01" \
+  --key "F4" \
+  --headline1 "直前の操作を、" \
+  --headline2 "もう一度" \
+  --before-name "リボンから毎回変更" --before-sec 12 \
+  --after-name "F4 を押すだけ" --after-sec 2 \
+  --note "図形10個の色を変える場合" \
+  --account "@your_account" \
+  --out card.png
 ```
 
-`node_modules/` が `template.html` と同じ階層にある状態にしてください。
+### 引数
 
-### 2. テンプレートの値を差し替える
-
-`template.html` 内の以下を書き換えます。
-
-| 箇所 | 内容 |
+| 引数 | 内容 |
 |---|---|
-| `<body data-pillar="...">` | 柱に対応する配色（`shortcut` / `verify` / `light`） |
-| `.pill` | 柱のラベル（例: PowerPoint 時短Tips） |
-| `.no` | テーマ番号（themes.md の # と対応） |
-| `.key` | ショートカットキー・機能名 |
-| `.headline` | 見出し。`<em>` で囲んだ部分がアクセント色になる |
-| `.row.before` の名前・バー幅・数値 | Before の操作名・実測時間 |
-| `.row.after` の名前・バー幅・数値 | After の操作名・実測時間 |
-| `.foot` 左 | 計測条件（例: 図形10個の色を変える場合） |
-| `.foot .acct` | アカウント名 |
+| `--pillar` | 柱に対応する配色。`shortcut` / `verify` / `light` |
+| `--label` | ピルのラベル（例: PowerPoint 時短Tips） |
+| `--no` | テーマ番号（themes.md の # と対応） |
+| `--key` | ショートカットキー・機能名（例: F4） |
+| `--headline1` | 見出し1行目 |
+| `--headline2` | 見出し2行目。アクセント色になる（省略可） |
+| `--before-name` / `--before-sec` | Before の操作名と実測秒数 |
+| `--after-name` / `--after-sec` | After の操作名と実測秒数 |
+| `--note` | 計測条件（例: 図形10個の色を変える場合） |
+| `--account` | アカウント名 |
+| `--out` | 出力先PNG |
+| `--scale` | `2` で2400×1350の高解像度 |
 
-**バーの `style="width:..."` は実測値に厳密比例させてください。** 長いほうを560pxとして、短いほうは `560 × (短い秒数 ÷ 長い秒数)` で計算します。例: 95秒 → 560px、15秒 → 88px。長さの差そのものが訴求なので、実際の比率から外さないこと。
+**秒数は必須です。** 実機検証を終えていないと値が入らないので、これがそのまま検証ゲートとして働きます。
 
-### 3. PNGに書き出す
+バー幅は `長いほう=560px` として実測値に厳密比例させた値が自動計算されます。手で計算する必要はありません。
 
-```bash
-/opt/pw-browsers/chromium-1194/chrome-linux/chrome \
-  --headless --no-sandbox --disable-gpu --hide-scrollbars \
-  --force-device-scale-factor=1 --window-size=1200,675 \
-  --screenshot=card.png template.html
-```
+### 依存
 
-`--force-device-scale-factor=2` にすると2400×1350の高解像度版が出ます。
+- **Chromium**: `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`（この環境に同梱）
+- **Noto Sans JP**: 無ければ `npm install @fontsource/noto-sans-jp` を自動実行します
+
+`node_modules/` と中間ファイル `_build.html` は `.gitignore` 済みです。
+
+### テンプレートを直接編集する場合
+
+デザイン自体を変えたいときは `template.html` を編集します。`make_card.py` はテンプレート内の既定値を文字列置換しているので、置換対象の記述（`<div class="key">F4</div>` など）を変えるとスクリプトが停止します。その場合は `make_card.py` の `subs` も合わせて更新してください。
 
 ## デザインの決めごと
 
