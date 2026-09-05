@@ -13,19 +13,27 @@
     src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-900-normal.woff2") format("woff2"); }
 
   :root{
-    /* SMILESTOCK.LAB サイトの :root をそのまま踏襲 */
+    /* 地の色・作法は SMILESTOCK.LAB サイトの :root を踏襲 */
     --bg:#2e2e2e;
     --surface:#383838;
     --line:rgba(255,255,255,.12);
     --text:#ffffff;
     --muted:rgba(255,255,255,.62);
-    --accent:#6a4cff;
-    --accent2:#3f42ff;
-    --accent-soft:#a994ff;
-    /* カード用の微調整（キーの箱を地から浮かせるため） */
-    --surface2:#3d3d3d;
+    --surface2:#3d3d3d;              /* キーの箱を地から浮かせるための微調整 */
     --line2:rgba(255,255,255,.18);
   }
+
+  /* 柱ごとの配色。accent=塗り / accent2=グラデ終点 / accent-soft=文字用 */
+  body[data-pillar="shortcut"]{      /* ①ショートカット・時短Tips + ②Before/After */
+    --accent:#6a4cff; --accent2:#3f42ff; --accent-soft:#a994ff;
+    --accent-tint:rgba(106,76,255,.15); --accent-edge:rgba(106,76,255,.5); }
+  body[data-pillar="verify"]{        /* ③検証ログ */
+    --accent:#a6e22e; --accent2:#82b224; --accent-soft:#c3e88d;
+    --accent-tint:rgba(166,226,46,.15); --accent-edge:rgba(166,226,46,.5); }
+  body[data-pillar="light"]{         /* ④地味だけど効くTips + ⑤あるある・小ネタ */
+    --accent:#cc1a94; --accent2:#a01578; --accent-soft:#f08fd0;
+    --accent-tint:rgba(204,26,148,.18); --accent-edge:rgba(204,26,148,.55); }
+
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   html,body{ width:1200px; height:675px; }
   body{
@@ -40,36 +48,38 @@
   .head{ display:flex; align-items:center; gap:16px; height:44px; }
   .pill{ font-size:23px; font-weight:600; color:var(--accent-soft);
     padding:8px 24px; border-radius:999px;
-    background:rgba(106,76,255,.15); border:1px solid rgba(106,76,255,.5); }
+    background:var(--accent-tint); border:1px solid var(--accent-edge); }
   .no{ font-size:22px; font-weight:500; color:var(--muted); }
 
   .main{ display:flex; align-items:center; gap:48px; height:172px; margin-top:58px; }
   /* サイトの .menu-card と同じ角丸16px・surface・ヘアライン */
-  .key{ flex:none; min-width:206px; height:172px; padding:0 32px;
+  .key{ flex:none; min-width:206px; max-width:430px; height:172px; padding:0 32px;
     border-radius:16px; background:var(--surface2); border:1px solid var(--line2);
     box-shadow:0 10px 26px rgba(0,0,0,.34);
     display:flex; align-items:center; justify-content:center;
-    font-size:82px; font-weight:900; }
+    font-size:82px; font-weight:900; white-space:nowrap; }
   .headline{ font-size:56px; font-weight:700; line-height:1.3; }
-  /* 文字に乗せる紫は accent-soft（accent は地に対してコントラスト不足のため） */
+  /* 文字に乗せる色は accent-soft。accent は地に対してコントラスト不足 */
   .headline em{ font-style:normal; color:var(--accent-soft); }
 
-  .bars{ margin-top:56px; }
-  .row{ display:flex; align-items:center; gap:20px; height:64px; }
-  .row + .row{ margin-top:16px; }
+  /* 数字はバーの外。バーは純粋な長さの表現に徹する（短くても文字が溢れない） */
+  .bars{ margin-top:60px; }
+  .row{ display:flex; align-items:center; gap:20px; height:56px; }
+  .row + .row{ margin-top:18px; }
   .row .name{ width:236px; text-align:right; font-size:25px; font-weight:500; color:var(--muted); }
-  .bar{ height:64px; border-radius:16px; display:flex; align-items:center;
-    padding:0 24px; font-size:44px; font-weight:900; white-space:nowrap; }
-  .before .bar{ background:var(--surface); border:1px solid var(--line); color:var(--muted); }
-  /* 紫は背景として使い、文字は白（サイトの .top-nav a:hover と同じ扱い） */
-  .after  .bar{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; }
+  .bar{ flex:none; height:44px; border-radius:12px; }
+  .val{ font-size:44px; font-weight:900; white-space:nowrap; }
+  .before .bar{ background:var(--surface); border:1px solid var(--line); }
+  .before .val{ color:var(--muted); }
+  .after  .bar{ background:linear-gradient(135deg,var(--accent),var(--accent2)); }
+  .after  .val{ color:var(--accent-soft); }
 
   .foot{ display:flex; justify-content:space-between; align-items:center;
     margin-top:40px; height:30px; font-size:22px; color:var(--muted); }
   .foot .acct{ font-weight:700; color:rgba(255,255,255,.62); }
 </style>
 </head>
-<body>
+<body data-pillar="shortcut">
 
   <div class="head">
     <div class="pill">PowerPoint 時短Tips</div>
@@ -82,9 +92,17 @@
   </div>
 
   <div class="bars">
-    <!-- バー幅は実測値に比例させる（12秒→600px / 2秒→100px） -->
-    <div class="row before"><div class="name">リボンから毎回変更</div><div class="bar" style="width:600px">12秒</div></div>
-    <div class="row after"><div class="name">F4 を押すだけ</div><div class="bar" style="width:100px">2秒</div></div>
+    <!-- バー幅は実測値に比例させる。長いほうを最大560pxとして換算する -->
+    <div class="row before">
+      <div class="name">リボンから毎回変更</div>
+      <div class="bar" style="width:560px"></div>
+      <div class="val">12秒</div>
+    </div>
+    <div class="row after">
+      <div class="name">F4 を押すだけ</div>
+      <div class="bar" style="width:93px"></div>
+      <div class="val">2秒</div>
+    </div>
   </div>
 
   <div class="foot">
