@@ -13,11 +13,18 @@
     src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-900-normal.woff2") format("woff2"); }
 
   :root{
-    /* 地の色・作法は SMILESTOCK.LAB サイトから継承 */
-    --bg:#2e2e2e; --surface:#383838; --line:rgba(255,255,255,.12);
-    --text:#ffffff; --muted:rgba(255,255,255,.62); --surface2:#3d3d3d; --line2:rgba(255,255,255,.18);
-    /* アクセントは別系統（ブランド分離のため紫は使わない） */
-    --accent:#ffa22b; --accent2:#ff7a1a; --accent-soft:#ffcb8a;
+    /* SMILESTOCK.LAB サイトの :root をそのまま踏襲 */
+    --bg:#2e2e2e;
+    --surface:#383838;
+    --line:rgba(255,255,255,.12);
+    --text:#ffffff;
+    --muted:rgba(255,255,255,.62);
+    --accent:#6a4cff;
+    --accent2:#3f42ff;
+    --accent-soft:#a994ff;
+    /* カード用の微調整（キーの箱を地から浮かせるため） */
+    --surface2:#3d3d3d;
+    --line2:rgba(255,255,255,.18);
   }
   *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
   html,body{ width:1200px; height:675px; }
@@ -25,25 +32,27 @@
     font-family:"NotoJP",sans-serif; background:var(--bg); color:var(--text);
     padding:50px 64px; position:relative; overflow:hidden;
   }
+  /* サイトのヒーローと同じ 135deg グラデーション */
   body::before{ content:""; position:absolute; left:0; top:0; width:100%; height:7px;
     background:linear-gradient(135deg,var(--accent),var(--accent2)); }
 
-  /* サイトの top-nav と同じピル型 */
+  /* サイトの .top-nav a と同じピル型 */
   .head{ display:flex; align-items:center; gap:16px; height:44px; }
-  .pill{ font-size:23px; font-weight:700; color:var(--accent-soft);
+  .pill{ font-size:23px; font-weight:600; color:var(--accent-soft);
     padding:8px 24px; border-radius:999px;
-    background:rgba(255,162,43,.14); border:1px solid rgba(255,162,43,.5); }
+    background:rgba(106,76,255,.15); border:1px solid rgba(106,76,255,.5); }
   .no{ font-size:22px; font-weight:500; color:var(--muted); }
 
   .main{ display:flex; align-items:center; gap:48px; height:172px; margin-top:58px; }
-  /* サイトの menu-card と同じ角丸16px・surface・ヘアライン */
+  /* サイトの .menu-card と同じ角丸16px・surface・ヘアライン */
   .key{ flex:none; min-width:206px; height:172px; padding:0 32px;
     border-radius:16px; background:var(--surface2); border:1px solid var(--line2);
     box-shadow:0 10px 26px rgba(0,0,0,.34);
     display:flex; align-items:center; justify-content:center;
     font-size:82px; font-weight:900; }
   .headline{ font-size:56px; font-weight:700; line-height:1.3; }
-  .headline em{ font-style:normal; color:var(--accent); }
+  /* 文字に乗せる紫は accent-soft（accent は地に対してコントラスト不足のため） */
+  .headline em{ font-style:normal; color:var(--accent-soft); }
 
   .bars{ margin-top:56px; }
   .row{ display:flex; align-items:center; gap:20px; height:64px; }
@@ -52,7 +61,8 @@
   .bar{ height:64px; border-radius:16px; display:flex; align-items:center;
     padding:0 24px; font-size:44px; font-weight:900; white-space:nowrap; }
   .before .bar{ background:var(--surface); border:1px solid var(--line); color:var(--muted); }
-  .after  .bar{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#2e2e2e; }
+  /* 紫は背景として使い、文字は白（サイトの .top-nav a:hover と同じ扱い） */
+  .after  .bar{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; }
 
   .foot{ display:flex; justify-content:space-between; align-items:center;
     margin-top:40px; height:30px; font-size:22px; color:var(--muted); }
