@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family:"NotoJP"; font-weight:400;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff2") format("woff2"); }
+  @font-face { font-family:"NotoJP"; font-weight:500;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-500-normal.woff2") format("woff2"); }
+  @font-face { font-family:"NotoJP"; font-weight:700;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-700-normal.woff2") format("woff2"); }
+  @font-face { font-family:"NotoJP"; font-weight:900;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-900-normal.woff2") format("woff2"); }
+
+  :root{
+    /* 地の色・作法は SMILESTOCK.LAB サイトから継承 */
+    --bg:#2e2e2e; --surface:#383838; --line:rgba(255,255,255,.12);
+    --text:#ffffff; --muted:rgba(255,255,255,.62); --surface2:#3d3d3d; --line2:rgba(255,255,255,.18);
+    /* アクセントは別系統（ブランド分離のため紫は使わない） */
+    --accent:#ffa22b; --accent2:#ff7a1a; --accent-soft:#ffcb8a;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ width:1200px; height:675px; }
+  body{
+    font-family:"NotoJP",sans-serif; background:var(--bg); color:var(--text);
+    padding:50px 64px; position:relative; overflow:hidden;
+  }
+  body::before{ content:""; position:absolute; left:0; top:0; width:100%; height:7px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); }
+
+  /* サイトの top-nav と同じピル型 */
+  .head{ display:flex; align-items:center; gap:16px; height:44px; }
+  .pill{ font-size:23px; font-weight:700; color:var(--accent-soft);
+    padding:8px 24px; border-radius:999px;
+    background:rgba(255,162,43,.14); border:1px solid rgba(255,162,43,.5); }
+  .no{ font-size:22px; font-weight:500; color:var(--muted); }
+
+  .main{ display:flex; align-items:center; gap:48px; height:172px; margin-top:58px; }
+  /* サイトの menu-card と同じ角丸16px・surface・ヘアライン */
+  .key{ flex:none; min-width:206px; height:172px; padding:0 32px;
+    border-radius:16px; background:var(--surface2); border:1px solid var(--line2);
+    box-shadow:0 10px 26px rgba(0,0,0,.34);
+    display:flex; align-items:center; justify-content:center;
+    font-size:82px; font-weight:900; }
+  .headline{ font-size:56px; font-weight:700; line-height:1.3; }
+  .headline em{ font-style:normal; color:var(--accent); }
+
+  .bars{ margin-top:56px; }
+  .row{ display:flex; align-items:center; gap:20px; height:64px; }
+  .row + .row{ margin-top:16px; }
+  .row .name{ width:236px; text-align:right; font-size:25px; font-weight:500; color:var(--muted); }
+  .bar{ height:64px; border-radius:16px; display:flex; align-items:center;
+    padding:0 24px; font-size:44px; font-weight:900; white-space:nowrap; }
+  .before .bar{ background:var(--surface); border:1px solid var(--line); color:var(--muted); }
+  .after  .bar{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#2e2e2e; }
+
+  .foot{ display:flex; justify-content:space-between; align-items:center;
+    margin-top:40px; height:30px; font-size:22px; color:var(--muted); }
+  .foot .acct{ font-weight:700; color:rgba(255,255,255,.62); }
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <div class="pill">PowerPoint 時短Tips</div>
+    <div class="no">#01</div>
+  </div>
+
+  <div class="main">
+    <div class="key">F4</div>
+    <div class="headline">直前の操作を、<br><em>もう一度</em></div>
+  </div>
+
+  <div class="bars">
+    <!-- バー幅は実測値に比例させる（12秒→600px / 2秒→100px） -->
+    <div class="row before"><div class="name">リボンから毎回変更</div><div class="bar" style="width:600px">12秒</div></div>
+    <div class="row after"><div class="name">F4 を押すだけ</div><div class="bar" style="width:100px">2秒</div></div>
+  </div>
+
+  <div class="foot">
+    <div>図形10個の色を変える場合</div>
+    <div class="acct">@your_account</div>
+  </div>
+
+</body>
+</html>
