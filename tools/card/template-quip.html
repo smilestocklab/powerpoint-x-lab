@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family:"NotoJP"; font-weight:400;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-400-normal.woff2") format("woff2"); }
+  @font-face { font-family:"NotoJP"; font-weight:500;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-500-normal.woff2") format("woff2"); }
+  @font-face { font-family:"NotoJP"; font-weight:700;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-700-normal.woff2") format("woff2"); }
+  @font-face { font-family:"NotoJP"; font-weight:900;
+    src:url("node_modules/@fontsource/noto-sans-jp/files/noto-sans-jp-japanese-900-normal.woff2") format("woff2"); }
+
+  :root{
+    /* 地の色・作法は SMILESTOCK.LAB サイトの :root を踏襲（timing版と共通） */
+    --bg:#2e2e2e;
+    --surface:#383838;
+    --line:rgba(255,255,255,.12);
+    --text:#ffffff;
+    --muted:rgba(255,255,255,.62);
+    --surface2:#3d3d3d;
+    --line2:rgba(255,255,255,.18);
+  }
+
+  /* 柱ごとの配色（timing版と同一の定義を保つこと） */
+  body[data-pillar="shortcut"]{
+    --accent:#6a4cff; --accent2:#3f42ff; --accent-soft:#a994ff;
+    --accent-tint:rgba(106,76,255,.15); --accent-edge:rgba(106,76,255,.5); }
+  body[data-pillar="verify"]{
+    --accent:#a6e22e; --accent2:#82b224; --accent-soft:#c3e88d;
+    --accent-tint:rgba(166,226,46,.15); --accent-edge:rgba(166,226,46,.5); }
+  body[data-pillar="light"]{
+    --accent:#ff00ff; --accent2:#cc00cc; --accent-soft:#ff6bff;
+    --accent-tint:rgba(255,0,255,.18); --accent-edge:rgba(255,0,255,.55); }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ width:1200px; height:675px; }
+  body{
+    font-family:"NotoJP",sans-serif; background:var(--bg); color:var(--text);
+    padding:50px 64px; position:relative; overflow:hidden;
+  }
+  body::before{ content:""; position:absolute; left:0; top:0; width:100%; height:7px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); }
+
+  .head{ display:flex; align-items:center; gap:16px; height:44px; }
+  .pill{ font-size:23px; font-weight:600; color:var(--accent-soft);
+    padding:8px 24px; border-radius:999px;
+    background:var(--accent-tint); border:1px solid var(--accent-edge); }
+  .no{ font-size:22px; font-weight:500; color:var(--muted); }
+
+  /* ふきだし。timing版のキーの箱と同じ surface2 / 角丸16px / ヘアライン */
+  .bubble{
+    position:relative; margin-top:46px; padding:40px 52px;
+    border-radius:16px; background:var(--surface2); border:1px solid var(--line2);
+    box-shadow:0 10px 26px rgba(0,0,0,.34);
+    border-left:8px solid var(--accent);
+    font-size:50px; font-weight:700; line-height:1.5;
+  }
+  .bubble em{ font-style:normal; color:var(--accent-soft); }
+  /* ふきだしの尻尾 */
+  .bubble::after{
+    content:""; position:absolute; left:96px; bottom:-19px;
+    width:0; height:0;
+    border-left:22px solid transparent; border-right:22px solid transparent;
+    border-top:19px solid var(--surface2);
+    filter:drop-shadow(0 2px 0 var(--line2));
+  }
+
+  .punch{ margin-top:42px; font-size:30px; font-weight:500; color:var(--muted); }
+
+  .foot{ display:flex; justify-content:flex-end; align-items:center;
+    margin-top:24px; height:30px; font-size:22px; }
+  .foot .acct{ font-weight:700; color:rgba(255,255,255,.62); }
+</style>
+</head>
+<body data-pillar="light">
+
+  <div class="head">
+    <div class="pill">資料作成あるある</div>
+    <div class="no">#20</div>
+  </div>
+
+  <div class="bubble">
+    自分のPCでは完璧だったのに、<br>
+    先方のPCで開いた瞬間<br>
+    <em>フォントが全部変わってる</em>
+  </div>
+
+  <div class="punch">分かる方、そっと「いいね」を押していってください。</div>
+
+  <div class="foot">
+    <div class="acct">@your_account</div>
+  </div>
+
+</body>
+</html>
