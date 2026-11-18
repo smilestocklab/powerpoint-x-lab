@@ -97,7 +97,8 @@ python3 tools/card/make_card.py --layout quip \
 
 ### 依存
 
-- **Chromium**: `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`（この環境に同梱）
+- **Chromium**: `make_card.py` が `/opt/pw-browsers` 以下から探します。見つからなければ PATH 上の `google-chrome` などを使います
+  - ⚠️ **パスを決め打ちしないこと。** バージョン番号が入るため、環境側の更新で壊れます（2026-11-19に `chromium-1194` → `chromium-1243` で実際に発生）
 - **Noto Sans JP**: 無ければ `npm install @fontsource/noto-sans-jp` を自動実行します
 
 `node_modules/` と中間ファイル `_build.html` は `.gitignore` 済みです。

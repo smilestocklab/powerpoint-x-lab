@@ -12,13 +12,32 @@ timing の実測値（--before-sec / --after-sec）は必須。カードはワ�
 
 import argparse
 import html
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 TEMPLATES = {"timing": HERE / "template.html", "quip": HERE / "template-quip.html"}
-CHROME = Path("/opt/pw-browsers/chromium-1194/chrome-linux/chrome")
+
+
+def find_chrome() -> Path | None:
+    """Chromium の実行ファイルを探す。
+
+    パスにバージョン番号が入るため決め打ちにしない（chromium-1194 → 1243 の
+    変更で一度壊れている）。同梱のものを優先し、無ければ PATH 上を使う。
+    """
+    for pat in ("chromium-*/chrome-linux*/chrome", "chromium*/chrome-linux*/chrome"):
+        hits = sorted(Path("/opt/pw-browsers").glob(pat))
+        if hits:
+            return hits[-1]          # 新しいバージョンを使う
+    for name in ("google-chrome", "chromium", "chromium-browser"):
+        found = shutil.which(name)
+        if found:
+            return Path(found)
+    return None
+
+
 FONT_DIR = HERE / "node_modules/@fontsource/noto-sans-jp"
 
 # 長いほうのバーの幅。README のバー幅ルールと一致させること
@@ -115,13 +134,14 @@ def build_quip(a: argparse.Namespace) -> str:
 
 
 def render(html_src: str, out: Path, scale: int) -> None:
-    if not CHROME.exists():
-        sys.exit(f"エラー: Chromium が見つかりません: {CHROME}")
+    chrome = find_chrome()
+    if chrome is None:
+        sys.exit("エラー: Chromium が見つかりません（/opt/pw-browsers 以下と PATH を探しました）")
     # フォントの相対パスを保つため、テンプレートと同じ階層に書き出す
     tmp = HERE / "_build.html"
     tmp.write_text(html_src, encoding="utf-8")
     subprocess.run(
-        [str(CHROME), "--headless", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
+        [str(chrome), "--headless", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
          f"--force-device-scale-factor={scale}", "--window-size=1200,675",
          f"--screenshot={out}", str(tmp)],
         capture_output=True, text=True, timeout=180,
